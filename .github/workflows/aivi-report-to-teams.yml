@@ -69,7 +69,7 @@ jobs:
             "@context":"https://schema.org/extensions",
             "@type":"MessageCard",
             "title": "AIVI 배포 알림 ($tag)",
-            "text": "배포된 버전 : $tag (모든 서버가 동일) <br/> # Kvision-Api-Server <br/> $kvision_notes <br/><br/> # backend-base-domain <br/> $backend_notes"
+            "text": "배포된 버전 : $tag (모든 서버가 동일) \n\n # Kvision-Api-Server \n $kvision_notes \n\n # backend-base-domain \n $backend_notes"
           }
           EOF
           )
