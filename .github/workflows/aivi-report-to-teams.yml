@@ -69,5 +69,7 @@ jobs:
           }
           EOF
           )
-          # curl -H "Content-Type: application/json" -d "$message" ${{ secrets.TEAMS_WEBHOOK_URL }}
-          echo "message=$message"
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            ${{ secrets.TEAMS_WEBHOOK_URL }} \
+            -d "$message"
