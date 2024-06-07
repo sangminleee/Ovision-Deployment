@@ -66,7 +66,7 @@ jobs:
             current_time=$(date -u +%Y-%m-%dT%H:%M:%SZ)
             echo "current_time=$current_time"
 
-            ten_seconds_ago=$(date -u --date='10 minutes ago' +%Y-%m-%dT%H:%M:%SZ)
+            ten_seconds_ago=$(date -u --date='30 minutes ago' +%Y-%m-%dT%H:%M:%SZ)
             echo "ten_seconds_ago=$ten_seconds_ago"
 
             if [[ "$created_at" > "$ten_seconds_ago" && "$status" == "completed" && "$conclusion" == "success" ]]; then
