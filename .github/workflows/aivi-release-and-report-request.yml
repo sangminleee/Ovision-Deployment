@@ -16,10 +16,11 @@ jobs:
       - name: Trigger ${{ matrix.repo }} workflow
         id: trigger
         run: |
+          url="https://api.github.com/repos/sangminleee/${{ matrix.repo }}/actions/workflows/aivi-release-and-report.yml/dispatches"
           step_response=$(curl -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-            https://api.github.com/repos/sangminleee/${{ matrix.repo }}/actions/workflows/aivi-release-and-report.yml/dispatches \
+            $url \
             -d '{"ref":"aivi"}')
           echo "response=$step_response"
           echo "response=$step_response" >> "GITHUB_OUTPUT"
@@ -39,6 +40,8 @@ jobs:
             echo "response=$response"
             echo "Response exists, not proceeding to the next job."
             exit 0
+          else
+            echo "Response not existsm, proceeding to the next job."
           fi
 
           while :
