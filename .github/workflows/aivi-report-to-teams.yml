@@ -62,7 +62,9 @@ jobs:
 
           message=$(cat <<EOF
           {
-            "title": "Weekly Release Notes",
+            "@context":"https://schema.org/extensions",
+            "@type":"MessageCard",
+            "title": "AIVI 배포 알림",
             "text": "**Kvision-Api-Server**\n$kvision_notes\n\n**backend-base-domain**\n$backend_notes"
           }
           EOF
