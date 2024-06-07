@@ -45,6 +45,8 @@ jobs:
             echo "Response not exists, proceeding to the next job."
           fi
 
+          sleep 5
+
           while :
           do
             result=$(curl -L \
