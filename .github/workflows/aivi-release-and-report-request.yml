@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        repo: [ 'Kvision-Api-Server' ]
+        repo: [ 'Kvision-Api-Server', 'backend-base-domain' ]
     outputs:
       response: ${{ steps.trigger.outputs.response }}
 
@@ -31,7 +31,7 @@ jobs:
     needs: trigger-repo-actions
     strategy:
       matrix:
-        repo: [ 'Kvision-Api-Server' ]
+        repo: [ 'Kvision-Api-Server', 'backend-base-domain' ]
 
     steps:
       - name: Wait for ${{ matrix.repo }} workflow to complete
@@ -88,9 +88,8 @@ jobs:
     steps:
       - name: Trigger aivi-report-to-teams workflow
         run: |
-          echo "post teams"
-#          curl -X POST \
-#            -H "Accept: application/vnd.github.v3+json" \
-#            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-#            https://api.github.com/repos/your-organization/Ovision-Deployment/actions/workflows/aivi-report-to-teams.yml/dispatches \
-#            -d '{"ref":"aivi"}'
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            https://api.github.com/repos/your-organization/Ovision-Deployment/actions/workflows/aivi-report-to-teams.yml/dispatches \
+            -d '{"ref":"aivi"}'

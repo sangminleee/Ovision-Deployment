@@ -1,0 +1,72 @@
+name: AIVI Release Notes to Teams
+
+on:
+  workflow_dispatch:  # 수동으로 워크플로우를 트리거할 수 있도록 설정
+
+jobs:
+  get-release-notes:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ['Kvision-Api-Server', 'backend-base-domain']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get release notes from ${{ matrix.repo }}
+        id: get_notes
+        run: |
+          today=$(TZ='Asia/Seoul' date +'%Y%m%d')
+          tag="aivi-$today"
+          echo "tag=$tag"
+          response=$(curl -H "Accept: application/vnd.github+json" \
+                         -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+                         "https://api.github.com/repos/sangminleee/${{ matrix.repo }}/releases/tags/$tag")
+          echo "response=$response"
+          release_notes=$(echo "$response" | jq -r '.body')
+          echo "release_notes=$release_notes"
+          echo "$release_notes" > ${{ matrix.repo }}_release_notes.txt
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Save release notes
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.repo }}-release-notes
+          path: ${{ matrix.repo }}_release_notes.txt
+
+  send-to-teams:
+    runs-on: ubuntu-latest
+    needs: get-release-notes
+
+    steps:
+      - name: Download release notes
+        uses: actions/download-artifact@v2
+        with:
+          name: Kvision-Api-Server-release-notes
+          path: Kvision-Api-Server_release_notes.txt
+
+      - name: Download release notes
+        uses: actions/download-artifact@v2
+        with:
+          name: backend-base-domain-release-notes
+          path: backend-base-domain_release_notes.txt
+
+      - name: Send notification to Teams
+        run: |
+          kvision_notes=$(cat Kvision-Api-Server_release_notes.txt)
+          backend_notes=$(cat backend-base-domain_release_notes.txt)
+          
+          echo "kvision_notes=$kvision_notes"
+          echo "backend_notes=$backend_notes"
+          
+          message=$(cat <<EOF
+          {
+            "title": "Weekly Release Notes",
+            "text": "**Kvision-Api-Server**\n$kvision_notes\n\n**backend-base-domain**\n$backend_notes"
+          }
+          EOF
+          )
+          # curl -H "Content-Type: application/json" -d "$message" ${{ secrets.TEAMS_WEBHOOK_URL }}
+          echo "message=$message"
