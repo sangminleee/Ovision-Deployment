@@ -20,7 +20,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             https://api.github.com/repos/sangminleee/${{ matrix.repo }}/actions/workflows/aivi-release-and-report.yml/dispatches \
-            -d '{"ref":"aivi"}'
+            -d '{"ref":"aivi"}')
           echo "response=$step_response"
           echo "response=$step_response" >> "GITHUB_OUTPUT"
 
