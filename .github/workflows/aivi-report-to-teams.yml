@@ -44,16 +44,16 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Kvision-Api-Server-release-notes
-          path: Kvision-Api-Server_release_notes.txt
 
       - name: Download release notes
         uses: actions/download-artifact@v2
         with:
           name: backend-base-domain-release-notes
-          path: backend-base-domain_release_notes.txt
 
       - name: Send notification to Teams
         run: |
+          echo $(ls -al)
+
           kvision_notes=$(cat Kvision-Api-Server_release_notes.txt)
           backend_notes=$(cat backend-base-domain_release_notes.txt)
 
