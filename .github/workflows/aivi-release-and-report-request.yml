@@ -37,12 +37,12 @@ jobs:
       - name: Wait for ${{ matrix.repo }} workflow to complete
         run: |
           response="${{ needs.trigger-repo-actions.outputs.response }}"
+          echo "response=$response"
           if [ -n "$response" ]; then
-            echo "response=$response"
             echo "Response exists, not proceeding to the next job."
             exit 0
           else
-            echo "Response not existsm, proceeding to the next job."
+            echo "Response not exists, proceeding to the next job."
           fi
 
           while :
