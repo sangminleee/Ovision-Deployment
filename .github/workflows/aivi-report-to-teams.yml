@@ -60,12 +60,16 @@ jobs:
           echo "kvision_notes=$kvision_notes"
           echo "backend_notes=$backend_notes"
 
+          today=$(TZ='Asia/Seoul' date +'%Y%m%d')
+          tag="aivi-$today"
+          echo "tag=$tag"
+
           message=$(cat <<EOF
           {
             "@context":"https://schema.org/extensions",
             "@type":"MessageCard",
             "title": "AIVI 배포 알림",
-            "text": "**Kvision-Api-Server**\n$kvision_notes\n\n**backend-base-domain**\n$backend_notes"
+            "text": "# Kvision-Api-Server \n $kvision_notes \n \n # backend-base-domain \n $backend_notes"
           }
           EOF
           )
