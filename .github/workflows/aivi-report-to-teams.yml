@@ -25,7 +25,6 @@ jobs:
             "https://api.github.com/repos/sangminleee/${{ matrix.repo }}/releases" \
             | jq -r --arg tag_name "$tag" '.[] | select (.name == $tag_name) | .body')
           echo "response=$response"
-          release_notes=$(echo "$response" | jq -r '.body')
           echo "release_notes=$release_notes"
           echo "$release_notes" > ${{ matrix.repo }}_release_notes.txt
         env:
