@@ -20,12 +20,11 @@ jobs:
           today=$(TZ='Asia/Seoul' date +'%Y%m%d')
           tag="aivi-$today"
           echo "tag=$tag"
-          response=$(curl -H "Accept: application/vnd.github+json" \
+          result=$(curl -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             "https://api.github.com/repos/sangminleee/${{ matrix.repo }}/releases" \
             | jq -r --arg tag_name "$tag" '.[] | select (.name == $tag_name) | .body')
-          echo "response=$response"
-          echo "release_notes=$release_notes"
+          echo "release_notes=$result"
           echo "$release_notes" > ${{ matrix.repo }}_release_notes.txt
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
