@@ -57,6 +57,13 @@ jobs:
           kvision_notes=$(cat Kvision-Api-Server_release_notes.txt)
           backend_notes=$(cat backend-base-domain_release_notes.txt)
 
+          if [ -z "$kvision_notes" ]; then
+            kvision_notes="변경사항 없음"
+          fi
+          if [ -z "$backend_notes" ]; then
+            backend_notes="변경사항 없음"
+          fi
+
           echo "kvision_notes=$kvision_notes"
           echo "backend_notes=$backend_notes"
 
