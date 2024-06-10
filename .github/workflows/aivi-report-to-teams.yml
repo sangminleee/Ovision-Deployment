@@ -73,10 +73,55 @@ jobs:
 
           message=$(cat <<EOF
           {
-            "@context":"https://schema.org/extensions",
-            "@type":"MessageCard",
-            "title": "AIVI 배포 알림 ($tag)",
-            "text": "배포된 버전 : $tag (모든 서버가 동일) \n\n # Kvision-Api-Server \n $kvision_notes \n\n # backend-base-domain \n $backend_notes"
+            "type": "message",
+            "attachments": [
+              {
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                  "type": "AdaptiveCard",
+                  "body": [
+                    {
+                      "type": "TextBlock",
+                      "size": "ExtraLarge",
+                      "weight": "Bolder",
+                      "text": "AIVI 배포 알림"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "size": "Large",
+                      "text": "Version : $tag (모든 서버 동일)"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "**Kvision-Api-Server**\n $kvision_notes",
+                      "size": "Medium"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "**backend-base-domain**\n $backend_notes",
+                      "size": "Medium"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "cc. <at>Sangmin Lee</at>"
+                    },
+                  ],
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  "version": "1.0",
+                  "msteams": {
+                    "entities": [
+                      {
+                        "type": "mention",
+                        "text": "<at>Sangmin Lee</at>",
+                        "mentioned": {
+                          "id": "nalsm0518@si-analytics.ai",
+                          "name": "Sangmin Lee"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }]
           }
           EOF
           )
