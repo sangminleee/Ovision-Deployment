@@ -58,10 +58,10 @@ jobs:
           backend_notes=$(cat backend-base-domain_release_notes.txt)
 
           if [ -z "$kvision_notes" ]; then
-            kvision_notes="변경사항 없음"
+            kvision_notes="\n변경사항 없음"
           fi
           if [ -z "$backend_notes" ]; then
-            backend_notes="변경사항 없음"
+            backend_notes="\n변경사항 없음"
           fi
 
           echo "kvision_notes=$kvision_notes"
